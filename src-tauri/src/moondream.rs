@@ -27,10 +27,10 @@ fn build_model_and_tokenizer(
 fn get_image_embeddings(image: String, device: &Device) -> Result<Tensor, Error> {
     tracing::debug!("Loading image {}", image);
     let image = load_image(&image)?
-        .to_device(device)?
         .to_dtype(DType::F16)?
+        .to_device(device)?
         .unsqueeze(0)?;
-    tracing::debug!("Image loaded");
+    tracing::debug!("Image loaded: {:?}", image);
     Ok(image)
 }
 
@@ -48,6 +48,7 @@ pub fn build_pipeline(
     }
     let tokens = tokens.get_ids().to_vec();
     tracing::debug!("tokens vector: {:?}", tokens);
+    tracing::debug!("Device: {:?}", device);
     let image_embeds = get_image_embeddings(image, device)?.apply(model.vision_encoder())?;
     tracing::debug!("image embeddings: {:?}", image_embeds);
     Pipeline::new(model, tokenizer, device, &tokens, image_embeds)

@@ -656,9 +656,11 @@ version = "0.5.0"
 source = "git+https://github.com/huggingface/candle/#33c9b6655459bd1086574cef9ba8f2e72a8804c8"
 dependencies = [
  "byteorder",
+ "candle-metal-kernels",
  "gemm",
  "half",
  "memmap2",
+ "metal",
  "num-traits",
  "num_cpus",
  "rand 0.8.5",
@@ -671,12 +673,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "candle-metal-kernels"
+version = "0.5.0"
+source = "git+https://github.com/huggingface/candle/#33c9b6655459bd1086574cef9ba8f2e72a8804c8"
+dependencies = [
+ "metal",
+ "once_cell",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
 name = "candle-nn"
 version = "0.5.0"
 source = "git+https://github.com/huggingface/candle/#33c9b6655459bd1086574cef9ba8f2e72a8804c8"
 dependencies = [
  "candle-core",
+ "candle-metal-kernels",
  "half",
+ "metal",
  "num-traits",
  "rayon",
  "safetensors",
@@ -2987,6 +3002,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "488016bfae457b036d996092f6cb448677611ce4449e970ceaf42695203f218a"
 dependencies = [
  "autocfg",
+]
+
+[[package]]
+name = "metal"
+version = "0.27.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c43f73953f8cbe511f021b58f18c3ce1c3d1ae13fe953293e13345bf83217f25"
+dependencies = [
+ "bitflags 2.5.0",
+ "block",
+ "core-graphics-types",
+ "foreign-types 0.5.0",
+ "log",
+ "objc",
+ "paste",
 ]
 
 [[package]]

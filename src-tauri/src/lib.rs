@@ -87,10 +87,17 @@ async fn generate(
     let cache = state.cache.clone();
     let device = state.device.clone();
     tokio::task::spawn_blocking(move || {
-        let mut moondream = moondream::build_pipeline(prompt, image, &device, &cache)?;
+        let mut moondream = match moondream::build_pipeline(prompt, image, &device, &cache) {
+            Ok(moondream) => moondream,
+            Err(e) => {
+                error!("Could not build pipeline: {:?}", e);
+                return Err(e);
+            }
+        };
         info!("Pipeline created");
         for generation in moondream.iter() {
             let generation = generation?;
+            tracing::debug!("Emitting generation: {:?}", generation.token.text);
             app.emit("text-generation", generation)?;
             if let Ok(_) = rx.try_recv() {
                 break;
@@ -159,10 +166,7 @@ pub fn run() {
             let device = if candle::utils::cuda_is_available() {
                 Device::new_cuda(0)?
             // Simulator doesn't support MPS (Metal Performance Shader).
-            } else if candle::utils::metal_is_available()
-                && std::env::var("TARGET").expect("TARGET env var not found")
-                    != "aarch64-apple-ios-sim"
-            {
+            } else if candle::utils::metal_is_available() {
                 Device::new_metal(0)?
             } else {
                 Device::Cpu

@@ -74,11 +74,17 @@ async function sendInput() {
 
 async function openImage() {
   console.log("Opening image");
-  const result = await open({
-    directory: false,
-    multiple: false,
-    filter: [{ name: "Images", extensions: ["jpg", "png", "jpeg"] }],
-  });
+  let result;
+  try {
+    result = await open({
+      directory: false,
+      multiple: false,
+      filter: [{ name: "Images", extensions: ["jpg", "png", "jpeg"] }],
+    });
+  } catch (err) {
+    modelResponse!.textContent = `Error: ${err}`;
+    return;
+  }
 
   console.log(result);
 
@@ -93,7 +99,6 @@ window.addEventListener("DOMContentLoaded", () => {
   modelResponse = document.querySelector("#response");
 
   document.querySelector("#image-upload")?.addEventListener("click", (e) => {
-    e.preventDefault();
     openImage();
   });
 

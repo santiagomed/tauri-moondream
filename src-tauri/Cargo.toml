@@ -19,9 +19,9 @@ tauri = { version = "2.0.0-beta", features = [] }
 tauri-plugin-shell = "2.0.0-beta"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-candle = { git="https://github.com/huggingface/candle/", package = "candle-core"}
+candle = { git="https://github.com/huggingface/candle/", package = "candle-core", features = ["metal"] }
 candle-transformers = { git="https://github.com/huggingface/candle/", package = "candle-transformers"}
-candle-nn = { git="https://github.com/huggingface/candle/", package = "candle-nn"}
+candle-nn = { git="https://github.com/huggingface/candle/", package = "candle-nn", features = ["metal"] }
 tokenizers = "0.15.2"
 hf-hub = "0.3.2"
 anyhow = "1.0.81"
