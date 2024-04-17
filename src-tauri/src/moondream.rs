@@ -30,7 +30,6 @@ fn get_image_embeddings(image: String, device: &Device) -> Result<Tensor, Error>
         .to_dtype(DType::F16)?
         .to_device(device)?
         .unsqueeze(0)?;
-    tracing::debug!("Image loaded: {:?}", image);
     Ok(image)
 }
 
@@ -47,10 +46,8 @@ pub fn build_pipeline(
         return Err(Error::InputError("Prompt is empty".to_string()));
     }
     let tokens = tokens.get_ids().to_vec();
-    tracing::debug!("tokens vector: {:?}", tokens);
-    tracing::debug!("Device: {:?}", device);
     let image_embeds = get_image_embeddings(image, device)?.apply(model.vision_encoder())?;
-    tracing::debug!("image embeddings: {:?}", image_embeds);
+    tracing::debug!("Generated image embeddings: {:?}", image_embeds);
     Pipeline::new(model, tokenizer, device, &tokens, image_embeds)
 }
 
@@ -117,9 +114,7 @@ impl Pipeline {
 
 impl<'a> PipelineIter<'a> {
     fn inner_next(&mut self) -> Result<Generation, Error> {
-        tracing::debug!("Generating token");
         let special_token = self.pipeline.special_token;
-        tracing::debug!("special token: {}", special_token);
         let input = Tensor::new(self.tokens.as_slice(), &self.pipeline.device)?.unsqueeze(0)?;
         let logits = if self.i > 0 {
             self.pipeline.model.text_model.forward(&input)?
@@ -140,6 +135,7 @@ impl<'a> PipelineIter<'a> {
         self.tokens = vec![next_token];
         let stop = next_token == special_token;
         let generated_text = if stop {
+            tracing::debug!("End of text. Stopping...");
             Some(
                 self.pipeline
                     .tokenizer

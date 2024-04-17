@@ -21,7 +21,7 @@
 <body>
   <div class="container">
     <h1>Welcome to Moondream!</h1>
-
+    <p id="error-message" style="color: red;"></p>
     <form class="row" id="input-form" />
     <input id="prompt-input" placeholder="Enter a name..." />
     <div>
@@ -30,8 +30,11 @@
     </div>
     <button type="submit">Generate</button>
     </form>
-
-    <p id="response"></p>
+    <div id="response-block">
+      <img src="" id="image-preview" alt="" width="300" />
+      <p id="response"></p>
+    </div>
+    <button id="stop" type="button">Stop generation</button>
   </div>
 </body>
 

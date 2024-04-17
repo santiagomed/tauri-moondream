@@ -1,3 +1,5 @@
+use std::path::Path;
+
 use candle::Device;
 use serde::{Deserialize, Serialize};
 use tauri::Manager;
@@ -6,6 +8,9 @@ use tracing::{error, info};
 
 pub mod moondream;
 pub mod utils;
+
+const ASSETS_DIR: &str = "/Users/santiagomedina/tauri-moondream/assets";
+const TARGET: &str = env!("TARGET");
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -63,8 +68,27 @@ pub struct Generation {
 }
 
 #[tauri::command]
+fn copy_image(src: String) -> Result<String, Error> {
+    let src = Path::new(&src);
+    tracing::debug!("copying image {:?} ", src);
+    if let Some(filename) = src.file_name() {
+        let dst = Path::new(ASSETS_DIR).join(filename);
+        tracing::debug!("to {:?}", dst);
+        if !dst.exists() {
+            std::fs::copy(src, &dst)?;
+        }
+        return Ok(dst.to_string_lossy().to_string());
+    } else {
+        return Err(Error::Io(std::io::Error::new(
+            std::io::ErrorKind::NotFound,
+            "Could not find filename",
+        )));
+    }
+}
+
+#[tauri::command]
 async fn stop(state: tauri::State<'_, State>) -> Result<(), Error> {
-    tracing::info!("STOP");
+    tracing::info!("STOP called");
     let mut tx = state.tx.try_lock()?;
     let tmptx = (*tx).take();
     if let Some(tx) = tmptx {
@@ -97,7 +121,7 @@ async fn generate(
         info!("Pipeline created");
         for generation in moondream.iter() {
             let generation = generation?;
-            tracing::debug!("Emitting generation: {:?}", generation.token.text);
+            tracing::debug!("Emitting generation: {:?}", generation);
             app.emit("text-generation", generation)?;
             if let Ok(_) = rx.try_recv() {
                 break;
@@ -150,7 +174,7 @@ pub fn run() {
                 .build(),
         )
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![generate, stop])
+        .invoke_handler(tauri::generate_handler![generate, stop, copy_image])
         .setup(move |app| {
             info!("Start the run");
             info!(
@@ -162,16 +186,15 @@ pub fn run() {
             );
             let path = app.path().local_data_dir().expect("Have a local data dir");
             let cache = cache(&path);
-            tracing::info!("get the device");
             let device = if candle::utils::cuda_is_available() {
                 Device::new_cuda(0)?
             // Simulator doesn't support MPS (Metal Performance Shader).
-            } else if candle::utils::metal_is_available() {
+            } else if candle::utils::metal_is_available() && TARGET != "aarch64-apple-ios-sim" {
                 Device::new_metal(0)?
             } else {
                 Device::Cpu
             };
-            tracing::info!("device: {:?}", device);
+            tracing::info!("using device: {:?}", device);
             app.manage(State {
                 cache,
                 device,

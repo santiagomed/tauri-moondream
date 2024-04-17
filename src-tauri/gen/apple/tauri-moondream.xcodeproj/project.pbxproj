@@ -13,21 +13,27 @@
 		4E85B16174071F56C8FBBD94 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = D313E2752E7B085489957D20 /* main.mm */; };
 		66CB21D17A9B26AF7B14B53D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C56F7FBD06A91DCEF0F479D1 /* Security.framework */; };
 		6EF8AF6417375FFE8AAEB48C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCF1DB7893B2AD2196C049E8 /* QuartzCore.framework */; };
+		80833284B466DFFCC5A14595 /* libtauri_moondream_lib.a in Resources */ = {isa = PBXBuildFile; fileRef = 81F39ECDAE5F0ECE7228A39F /* libtauri_moondream_lib.a */; };
 		919D0B56F7B767A7D8D0F2BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D270E4555AE2C319C376DB7 /* UIKit.framework */; };
 		A5CA10E587EBFE4F51AA5604 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 67835551E9B27D3409FC6FB8 /* assets */; };
+		BA4E502B3DCF0340D5C15AC7 /* libtauri_moondream_lib.a in Resources */ = {isa = PBXBuildFile; fileRef = 7BFB2D14C545CFDCC52F56B3 /* libtauri_moondream_lib.a */; };
 		BF5829B269E4D0F39EE11425 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8B6E8CF72941DAE5526139 /* Metal.framework */; };
 		DB759C5DFCBF53AE1FE03580 /* libtauri_moondream_lib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B230C7769FB0EA1CCA3825 /* libtauri_moondream_lib.a */; };
 		EF98BC465CC6D40713163B41 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D406C47D31C3DB11A86E9F22 /* MetalKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1CC40CDE528C4A1108296409 /* utils.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = utils.rs; sourceTree = "<group>"; };
 		28B230C7769FB0EA1CCA3825 /* libtauri_moondream_lib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtauri_moondream_lib.a; sourceTree = "<group>"; };
 		3D28B888E032B6D065106C18 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		45A354EF5E37C58E6D3555CD /* lib.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = lib.rs; sourceTree = "<group>"; };
 		4E995A591EB7A6ABD5D83F3E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		67835551E9B27D3409FC6FB8 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = SOURCE_ROOT; };
 		6D270E4555AE2C319C376DB7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7BFB2D14C545CFDCC52F56B3 /* libtauri_moondream_lib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtauri_moondream_lib.a; sourceTree = "<group>"; };
+		81F39ECDAE5F0ECE7228A39F /* libtauri_moondream_lib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtauri_moondream_lib.a; sourceTree = "<group>"; };
 		85CEF60CAD9368C455A10E03 /* main.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.rs; sourceTree = "<group>"; };
+		8A11B8087F1FB9A52009AA52 /* moondream.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = moondream.rs; sourceTree = "<group>"; };
 		96FF2153231C3832D7778B04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		985FA089A25762D2B585A459 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B8B6E8CF72941DAE5526139 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
@@ -71,6 +77,8 @@
 		1A7DE39611D961E0A78CEC27 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				96817E721A29BAA6089154D1 /* arm64 */,
+				D21E491304DB3EFFC9A18A6E /* arm64-sim */,
 			);
 			path = Externals;
 			sourceTree = "<group>";
@@ -98,6 +106,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3F0FABFFB401DC143EDF8E0E /* debug */ = {
+			isa = PBXGroup;
+			children = (
+				7BFB2D14C545CFDCC52F56B3 /* libtauri_moondream_lib.a */,
+			);
+			path = debug;
+			sourceTree = "<group>";
+		};
 		783471D2DBE30AB16A840222 /* tauri-moondream */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +131,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		96817E721A29BAA6089154D1 /* arm64 */ = {
+			isa = PBXGroup;
+			children = (
+				F27F1F4F5A903028C7BA21A2 /* debug */,
+			);
+			path = arm64;
+			sourceTree = "<group>";
+		};
 		98FDAFE3CB4867323996FC5C = {
 			isa = PBXGroup;
 			children = (
@@ -129,11 +153,29 @@
 			);
 			sourceTree = "<group>";
 		};
+		D21E491304DB3EFFC9A18A6E /* arm64-sim */ = {
+			isa = PBXGroup;
+			children = (
+				3F0FABFFB401DC143EDF8E0E /* debug */,
+			);
+			path = "arm64-sim";
+			sourceTree = "<group>";
+		};
+		F27F1F4F5A903028C7BA21A2 /* debug */ = {
+			isa = PBXGroup;
+			children = (
+				81F39ECDAE5F0ECE7228A39F /* libtauri_moondream_lib.a */,
+			);
+			path = debug;
+			sourceTree = "<group>";
+		};
 		FD4F327D4B080B1E461AB853 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				45A354EF5E37C58E6D3555CD /* lib.rs */,
 				85CEF60CAD9368C455A10E03 /* main.rs */,
+				8A11B8087F1FB9A52009AA52 /* moondream.rs */,
+				1CC40CDE528C4A1108296409 /* utils.rs */,
 			);
 			name = src;
 			path = ../../src;
@@ -201,6 +243,8 @@
 			files = (
 				03663F9038152C8515CA54FC /* Assets.xcassets in Resources */,
 				A5CA10E587EBFE4F51AA5604 /* assets in Resources */,
+				BA4E502B3DCF0340D5C15AC7 /* libtauri_moondream_lib.a in Resources */,
+				80833284B466DFFCC5A14595 /* libtauri_moondream_lib.a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
