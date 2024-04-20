@@ -3,10 +3,11 @@ use std::path::Path;
 use candle::Device;
 use serde::{Deserialize, Serialize};
 use tauri::Manager;
-use tauri_plugin_image::{ImageExt, PingRequest};
+use tauri_plugin_dialog::DialogExt;
 use tauri_plugin_log::{Target, TargetKind};
 use tracing::{debug, error, info};
 
+pub mod base64img;
 pub mod moondream;
 pub mod utils;
 
@@ -95,17 +96,22 @@ fn copy_image(src: String) -> Result<String, Error> {
 
 #[tauri::command]
 async fn open_image(app: tauri::AppHandle) -> Result<String, Error> {
-    debug!("Calling ping");
-    let v = match app.image().ping(PingRequest {
-        value: Some("ping".to_string()),
-    }) {
-        Ok(s) => s.value.unwrap(),
-        Err(e) => {
-            error!("Error: {e}");
-            "Error".to_string()
-        }
-    };
-    debug!("Ping val: {v}");
+    debug!("Calling dialog");
+    // let file_response = match app.dialog().file().blocking_pick_file() {
+    //     Some(file) => file,
+    //     None => {
+    //         error!("No file selected");
+    //         return Err(Error::InputError("No file selected".to_string()));
+    //     }
+    // };
+
+    let _file_response = app
+        .dialog()
+        .file()
+        .pick_file(|file_response| match file_response {
+            Some(file) => debug!("{:#?}", file.path),
+            None => debug! {"No file selected"},
+        });
 
     Ok("test".to_string())
 }
@@ -182,7 +188,6 @@ fn cache(path: &std::path::Path) -> hf_hub::Cache {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
-        .plugin(tauri_plugin_image::init())
         .plugin(
             tauri_plugin_log::Builder::new()
                 .targets([
@@ -212,8 +217,7 @@ pub fn run() {
                 Device::new_cuda(0)?
             // Simulator doesn't support MPS (Metal Performance Shader).
             } else if candle::utils::metal_is_available() && TARGET != "aarch64-apple-ios-sim" {
-                Device::new_metal(0)?
-                // Device::Cpu // For now, use CPU
+                Device::Cpu // For now, use CPU
             } else {
                 Device::Cpu
             };

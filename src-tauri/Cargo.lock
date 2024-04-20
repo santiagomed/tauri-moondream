@@ -5141,18 +5141,19 @@ name = "tauri-moondream"
 version = "0.0.1"
 dependencies = [
  "anyhow",
+ "base64 0.22.0",
  "candle-core",
  "candle-nn",
  "candle-transformers",
  "hf-hub",
  "image",
+ "lazy_static",
  "log",
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
  "tauri-plugin-dialog",
- "tauri-plugin-image",
  "tauri-plugin-log",
  "tauri-plugin-shell",
  "thiserror",
@@ -5215,16 +5216,6 @@ dependencies = [
  "thiserror",
  "url",
  "uuid",
-]
-
-[[package]]
-name = "tauri-plugin-image"
-version = "0.0.0"
-dependencies = [
- "serde",
- "tauri",
- "tauri-plugin",
- "thiserror",
 ]
 
 [[package]]

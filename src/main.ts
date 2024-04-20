@@ -101,7 +101,6 @@ async function openImage() {
   info("Opening image");
   let result;
   try {
-    await invoke("open_image");
     result = await open({
       directory: false,
       multiple: false,
